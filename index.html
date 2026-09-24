@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Você + eu + um encontro?</title>
+  <style>
+    :root { color-scheme: light; --ink: #42282e; --pink: #dd4668; --paper: #fffdf8; }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; min-height: 100svh; display: grid; place-items: center; padding: 28px 16px; color: var(--ink); font-family: "Segoe UI", sans-serif; background-color: #f9eee8; background-image: radial-gradient(#dec7c0 1px, transparent 1px); background-size: 22px 22px; }
+    main { width: min(100%, 480px); position: relative; padding: 38px 28px 24px; background: var(--paper); border: 1px solid #e5d2ca; border-radius: 26px; text-align: center; box-shadow: 0 18px 0 -10px #ead4cb, 0 26px 65px #64332615; }
+    .eyebrow { font-size: 10px; letter-spacing: 2.8px; font-weight: 800; color: #97616a; margin: 0 0 24px; }
+    .heart { display: block; width: 106px; height: 94px; margin: 0 auto 20px; transform: rotate(-8deg); }
+    h1, h2 { font-family: Georgia, serif; font-weight: 500; font-size: clamp(34px, 8vw, 46px); line-height: 1.08; letter-spacing: -1.8px; margin: 0 0 16px; }
+    h1 em { color: var(--pink); }
+    .subtitle { max-width: 330px; margin: auto; font-size: 15px; line-height: 1.6; color: #81636a; }
+    button, input { font: inherit; }
+    button { cursor: pointer; touch-action: manipulation; }
+    button:focus-visible, input:focus-visible + span { outline: 3px solid #6334a1; outline-offset: 4px; }
+    button { border: 0; border-radius: 14px; min-height: 48px; font-weight: 700; }
+    .primary { background: var(--pink); color: white; box-shadow: 0 5px 0 #b82f4e; padding: 14px 22px; }
+    .primary:hover { background: #cb3a5b; }
+    .primary:active { box-shadow: 0 2px 0 #b82f4e; transform: translateY(3px); }
+    .arena { position: relative; height: 216px; margin-top: 4px; }
+    #yes { position: absolute; top: 54px; left: calc(50% - 122px); width: 130px; padding: 14px 8px; }
+    #no { position: absolute; top: 54px; left: calc(50% + 26px); width: 96px; background: #eee7e1; color: #765e64; border: 1px solid #dccfc7; }
+    #no.escaped { top: 124px; left: 8px; width: auto; min-width: 96px; max-width: calc(100% - 16px); padding: 12px 14px; font-size: 13px; }
+    .quip { font-size: 13px; color: #906570; line-height: 1.5; min-height: 40px; margin: 0; }
+    .footnote { border-top: 1px dashed #e4d2c8; padding-top: 18px; margin: 18px 0 0; font-size: 11px; color: #9b7c80; }
+    .choices { border: 0; padding: 0; margin: 26px 0; display: grid; gap: 10px; text-align: left; }
+    legend { padding: 0 0 12px; font-size: 13px; font-weight: 700; }
+    .choice { position: relative; cursor: pointer; }
+    .choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .choice span { display: block; padding: 16px; border: 1px solid #e4d5ce; border-radius: 14px; font-size: 14px; }
+    .choice input:checked + span { background: #fff0f2; border: 2px solid var(--pink); padding: 15px; }
+    .wide { width: 100%; }
+    .back { display: block; margin: 20px auto 0; background: transparent; color: #8f6f76; font-size: 12px; text-decoration: underline; min-height: 44px; padding: 8px 14px; }
+    .big-emoji { font-size: 60px; margin: 4px 0 22px; }
+    .ticket { margin: 24px 0; padding: 22px 16px; border: 1px dashed #d5a2ae; border-radius: 16px; background: #fff2f3; }
+    .ticket small { display: block; letter-spacing: 2px; font-size: 10px; margin-bottom: 12px; color: #a4586b; }
+    .ticket strong { display: block; font-family: Georgia, serif; font-size: 25px; font-weight: 500; }
+    .confetti { position: fixed; top: -20px; pointer-events: none; z-index: 10; width: 9px; height: 14px; animation: fall 2.6s ease-in forwards; }
+    @keyframes fall { to { transform: translateY(110vh) rotate(640deg); opacity: 0; } }
+    @media (max-width: 360px) { main { padding-inline: 18px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">DEPARTAMENTO DE SEGUNDAS INTENÇÕES</p>
+
+    <section id="invite" aria-labelledby="question">
+      <svg class="heart" viewBox="0 0 110 98" aria-hidden="true">
+        <path d="M55 90 12 49C-14 19 25-10 55 20 85-10 124 19 98 49Z" fill="#ef7890" stroke="#b94360" stroke-width="2"/>
+        <ellipse cx="39" cy="41" rx="3" ry="5" fill="#652939"/>
+        <ellipse cx="71" cy="41" rx="3" ry="5" fill="#652939"/>
+        <path d="M46 54Q55 64 64 54" fill="none" stroke="#652939" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="29" cy="51" rx="7" ry="4" fill="#e75b7c"/>
+        <ellipse cx="81" cy="51" rx="7" ry="4" fill="#e75b7c"/>
+      </svg>
+      <!-- Personalize o convite e as opções abaixo à vontade. -->
+      <h1 id="question" tabindex="-1">Você, eu<br>e um <em>encontro?</em></h1>
+      <p class="subtitle">Prometo boas risadas, péssimas piadas<br>e dividir a batata frita. Talvez.</p>
+      <div class="arena" id="arena">
+        <button class="primary" id="yes" type="button">Sim, bora! 💘</button>
+        <button id="no" type="button">Não 🥺</button>
+      </div>
+      <p class="quip" id="quip" aria-live="polite">Aviso: o botão “não” é meio tímido.</p>
+    </section>
+
+    <section id="plan" aria-labelledby="plan-title" hidden>
+      <p class="big-emoji" aria-hidden="true">🥳</p>
+      <h2 id="plan-title" tabindex="-1">Temos um sim!</h2>
+      <p class="subtitle">Eu tinha um discurso preparado,<br>mas esqueci tudo. Vamos ao importante:</p>
+      <form id="plan-form">
+        <fieldset class="choices">
+          <legend>Qual vai ser o nosso rolê?</legend>
+          <label class="choice"><input type="radio" name="outing" value="cafe" checked><span>☕ Café e uma conversa sem hora</span></label>
+          <label class="choice"><input type="radio" name="outing" value="pizza"><span>🍕 Pizza e a última fatia é sua</span></label>
+          <label class="choice"><input type="radio" name="outing" value="sorvete"><span>🍦 Sorvete e uma voltinha</span></label>
+        </fieldset>
+        <button class="primary wide" type="submit">É esse o plano! ✨</button>
+      </form>
+      <button class="back" type="button" data-back="invite">Voltar ao convite</button>
+    </section>
+
+    <section id="done" aria-labelledby="done-title" hidden>
+      <p class="big-emoji" aria-hidden="true">💌</p>
+      <h2 id="done-title" tabindex="-1">Amei a escolha!</h2>
+      <p class="subtitle">Meu coração já colocou roupa de sair.</p>
+      <div class="ticket"><small>VALE UM ENCONTRO</small><strong id="selected-plan"></strong></div>
+      <p class="subtitle">Tira um print e me manda.<br>Agora só falta combinar o dia e o horário! 😉</p>
+      <button class="back" type="button" data-back="plan">Mudar o rolê</button>
+    </section>
+
+    <p class="footnote">Convite feito com carinho e uma quantidade suspeita de coragem.</p>
+    <noscript><p>Ative o JavaScript do navegador para os botões funcionarem.</p></noscript>
+  </main>
+
+  <script>
+    const no = document.querySelector('#no');
+    const yes = document.querySelector('#yes');
+    const arena = document.querySelector('#arena');
+    const quip = document.querySelector('#quip');
+    // Cada clique troca tanto a frase do botão quanto o comentário abaixo.
+    const messages = [
+      ['Não, mesmo?', 'O botão pediu uma segunda opinião. 🥺'],
+      ['Nem um cafezinho?', 'O café já estava ensaiando um coração na espuma. ☕'],
+      ['E uma pizza?', 'A última fatia acaba de entrar na negociação. 🍕'],
+      ['Nem pela batata?', 'Minha batata frita ficou sem par. 🍟'],
+      ['E um sorvetinho?', 'O sorvete derreteu. Eu também, mas disfarcei. 🍦'],
+      ['Tem certeza?', 'Opa, esse botão é tímido. Saiu de fininho. 🥺'],
+      ['Vou pensar...', 'Carregando uma resposta com charme... 2%. ⏳'],
+      ['Hoje não, cupido', 'Cupido entrou em modo avião. ✈️'],
+      ['Só vim pelo lanche', 'Uma motivação perfeitamente válida. 🥐'],
+      ['Modo fuga ativado', 'Próxima parada: outro canto da tela. 🏃'],
+      ['Não, mas ri disso', 'Missão secundária concluída: ganhar uma risada. 🏆'],
+      ['Cadê a saída?', 'O GPS do botão recalculou a rota. 🗺️'],
+      ['Vou de não', 'Ele vai de teletransporte. 🥷'],
+      ['Talvez outro dia?', 'O botão foi conferir a agenda do coração. 📅'],
+      ['E as suas piadas?', 'São ruins, mas vêm com garantia de revirar os olhos. 🤓'],
+      ['Preciso de um mapa', 'Você desbloqueou: pega-pega romântico. 🧭'],
+      ['Pausa pro drama', 'O botão está ensaiando para uma novela. 🎭'],
+      ['Fui dar uma volta', 'Meta de passos do botão: concluída. 👟'],
+      ['Ainda é não', 'Tudo bem dizer não. O botão só é dramático. 🥺'],
+      ['Lá vamos nós...', 'O botão terminou o roteiro e pediu mais uma temporada. 🎬']
+    ];
+    let escapes = 0;
+
+    // O click funciona com mouse, toque, Enter e Espaço.
+    no.addEventListener('click', () => {
+      const oldX = no.offsetLeft;
+      const oldY = no.offsetTop;
+      const [label, message] = messages[escapes++ % messages.length];
+      no.textContent = `${label} 🥺`;
+      no.classList.add('escaped');
+      quip.textContent = message;
+
+      // Meça o botão depois de trocar o texto, pois sua largura pode mudar.
+      const padding = 8;
+      const maxX = arena.clientWidth - no.offsetWidth - padding;
+      const maxY = arena.clientHeight - no.offsetHeight - padding;
+      const candidates = [];
+      // A grade garante alternativas mesmo em telas pequenas.
+      for (let row = 0; row <= 4; row++) {
+        for (let col = 0; col <= 5; col++) {
+          const x = padding + (maxX - padding) * col / 5;
+          const y = padding + (maxY - padding) * row / 4;
+          const overlapsYes = x < yes.offsetLeft + yes.offsetWidth + 12 &&
+            x + no.offsetWidth > yes.offsetLeft - 12 &&
+            y < yes.offsetTop + yes.offsetHeight + 12 &&
+            y + no.offsetHeight > yes.offsetTop - 12;
+          if (!overlapsYes) candidates.push({ x, y, distance: Math.hypot(x - oldX, y - oldY) });
+        }
+      }
+      if (candidates.length) {
+        const distant = candidates.filter(candidate => candidate.distance > 60);
+        const next = distant.length
+          ? distant[Math.floor(Math.random() * distant.length)]
+          : candidates.reduce((farthest, candidate) => candidate.distance > farthest.distance ? candidate : farthest);
+        no.style.left = `${next.x}px`;
+        no.style.top = `${next.y}px`;
+      }
+    });
+
+    // Ao redimensionar, a posição inicial volta a se adaptar à tela.
+    window.addEventListener('resize', () => {
+      no.style.left = '';
+      no.style.top = '';
+    });
+
+    function showStep(id) {
+      ['invite', 'plan', 'done'].forEach(step => {
+        document.getElementById(step).hidden = step !== id;
+      });
+      document.querySelector(`#${id} h1, #${id} h2`).focus();
+    }
+
+    function celebrate() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const colors = ['#dd4668', '#edb94f', '#a4bda7', '#a78ac3'];
+      for (let i = 0; i < 32; i++) {
+        const piece = document.createElement('i');
+        piece.className = 'confetti';
+        piece.setAttribute('aria-hidden', 'true');
+        piece.style.left = `${Math.random() * 98}vw`;
+        piece.style.background = colors[i % colors.length];
+        piece.style.animationDelay = `${Math.random() * 0.5}s`;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 3300);
+      }
+    }
+
+    yes.addEventListener('click', () => { showStep('plan'); celebrate(); });
+    document.querySelector('#plan-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const options = { cafe: '☕ Café + nós dois', pizza: '🍕 Pizza + nós dois', sorvete: '🍦 Sorvete + nós dois' };
+      const selected = new FormData(event.currentTarget).get('outing');
+      document.querySelector('#selected-plan').textContent = options[selected];
+      showStep('done');
+      celebrate();
+    });
+    document.querySelectorAll('[data-back]').forEach(button => {
+      button.addEventListener('click', () => showStep(button.dataset.back));
+    });
+  </script>
+</body>
+</html>
